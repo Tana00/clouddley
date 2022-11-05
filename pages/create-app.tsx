@@ -15,9 +15,17 @@ export default function CreateAppStepper() {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  let payload = {
+    name: "happy",
+    url: "https://happy.clouddley.app",
+    region: "us-east-3",
+    created: "21-10-2022",
+    environment: "dev",
+  };
+
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
-      //   dispatch(addItem(payload));
+      dispatch(addItem(payload));
       router.push("/apps");
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);

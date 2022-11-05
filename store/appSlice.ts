@@ -3,28 +3,28 @@ import { AppData } from "../global.interface";
 
 // interface App {
 //   id: string;
-//   createdAt: Date;
+//   created: Date;
 //   url: string;
 //   name: string;
 //   region: string;
 //   environment: string;
 // }
 
-const todoSlice = createSlice({
+const appSlice = createSlice({
   name: "apps",
   initialState: [],
   reducers: {
     addItem: (state, action: PayloadAction<AppData>) => {
       const newApp = {
         id: new Date().getTime().toString(),
-        createdAt: new Date(),
+        created: new Date(),
         url: action.payload.url,
         name: action.payload.name,
         region: action.payload.region,
         environment: action.payload.environment,
       };
       //   @ts-ignore
-      newApp.add && state.push(newApp);
+      state.push(newApp);
     },
 
     //clear all item in list
@@ -34,6 +34,6 @@ const todoSlice = createSlice({
   },
 });
 
-export const { addItem, clearList } = todoSlice.actions;
+export const { addItem, clearList } = appSlice.actions;
 
-export default todoSlice.reducer;
+export default appSlice.reducer;

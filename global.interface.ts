@@ -5,3 +5,7 @@ export interface AppData {
   created: string;
   environment: string;
 }
+
+export interface AppReducer {
+  app: AppData;
+}
