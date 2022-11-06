@@ -1,11 +1,5 @@
 import "@testing-library/jest-dom";
-import {
-  fireEvent,
-  render,
-  RenderResult,
-  screen,
-} from "@testing-library/react";
-import { Route, MemoryRouter } from "react-router-dom";
+import { render, RenderResult, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { AppData } from "../global.interface";
 import Apps from "../pages/apps/index";
