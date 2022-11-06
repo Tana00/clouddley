@@ -1,4 +1,3 @@
-import Router, { useRouter } from "next/router";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -24,17 +23,17 @@ interface AppTableProps {
 }
 
 const AppTable = ({ lists }: AppTableProps) => {
-  const router = useRouter();
+  const columns = ["Name", "Url", "Region", "Created", "App Environment"];
 
   const rows: AppData[] = [];
   const getData = () => {
-    lists.map((list: AppData) => {
-      return rows.push(
+    lists?.map((list: AppData) => {
+      return rows?.push(
         createData(
           list?.name,
           list?.url,
           list?.region,
-          format(new Date(list?.created || ""), "dd/MM/yyyy"),
+          list?.created && format(new Date(list?.created || ""), "dd/MM/yyyy"),
           list?.environment
         )
       );
@@ -48,11 +47,15 @@ const AppTable = ({ lists }: AppTableProps) => {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="center">Name</TableCell>
-            <TableCell align="center">Url</TableCell>
-            <TableCell align="center">Region</TableCell>
-            <TableCell align="center">Created</TableCell>
-            <TableCell align="center">App Environment</TableCell>
+            {columns.map((column) => (
+              <TableCell
+                key={column}
+                align="center"
+                style={{ fontWeight: 600 }}
+              >
+                {column}
+              </TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -67,17 +70,6 @@ const AppTable = ({ lists }: AppTableProps) => {
               <TableRow
                 key={`${row.name}_${i}`}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                onClick={() =>
-                  Router.push(
-                    {
-                      pathname: "/create-app",
-                      query: { step: 1, app: JSON.stringify(row) },
-                    },
-                    "/create-app"
-                  )
-                }
-                className="cursor-pointer"
-                hover
               >
                 <TableCell component="th" scope="row" align="center">
                   {row.name}

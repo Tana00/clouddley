@@ -4,11 +4,11 @@ import AppTable from "./table";
 import { AppReducer } from "../global.interface";
 
 const AppList = () => {
-  const lists: any = useSelector((state: AppReducer) => state.app);
+  let appList: any = useSelector((state: AppReducer) => state.app);
 
   return (
     <div className="container-fluid my-3 w-full">
-      <AppTable lists={lists} />
+      <AppTable lists={appList} />
     </div>
   );
 };

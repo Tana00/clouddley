@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import Stepper from "@mui/material/Stepper";
@@ -16,19 +16,13 @@ export default function CreateAppStepper(props: any) {
   const router = useRouter();
 
   const [errors, setErrors] = useState(true);
-  const [activeStep, setActiveStep] = useState(
-    // @ts-ignore
-    parseInt(router?.query?.step, 10) || 0
-  );
+  const [activeStep, setActiveStep] = useState(0);
 
-  const [appObj, setAppObj] = useState<AppData>(
-    // @ts-ignore
-    router?.query?.app && JSON.parse(router?.query?.app)
-  );
+  const [appObj, setAppObj] = useState<AppData | null | undefined>(null);
 
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
-      dispatch(addApp(appObj));
+      dispatch(addApp(appObj!));
       router.push("/apps");
     } else {
       if (errors) {

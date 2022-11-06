@@ -41,7 +41,7 @@ export default function Layout({ children }: any) {
             </ul>
           </nav>
         </aside>
-        <main className="flex-1 md:my-8 my-2 md:px-8 px-2">{children}</main>
+        <main className="flex-1 md:my-8 my-2 md:px-20 px-2">{children}</main>
       </div>
     </div>
   );

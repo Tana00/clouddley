@@ -1,7 +1,11 @@
 import { AppForm } from ".";
 import { AppData } from "../global.interface";
 
-export default function ReviewApp({ appObj }: { appObj: AppData }) {
+export default function ReviewApp({
+  appObj,
+}: {
+  appObj: AppData | null | undefined;
+}) {
   return (
     <div className="container-fluid">
       <h2 className="text-lg my-4">Preview</h2>

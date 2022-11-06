@@ -3,8 +3,8 @@ import { AppData } from "../global.interface";
 import CustomInput from "./input";
 
 interface FormProps {
-  setAppObj: Dispatch<SetStateAction<AppData>>;
-  appObj: AppData;
+  setAppObj: Dispatch<SetStateAction<AppData | null | undefined>>;
+  appObj: AppData | null | undefined;
   setErrors: Dispatch<SetStateAction<boolean>>;
 }
 
