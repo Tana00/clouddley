@@ -7,6 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { format } from "date-fns";
 import { AppData } from "../global.interface";
+import { useEffect } from "react";
 
 function createData(
   name: string,
@@ -26,6 +27,8 @@ const AppTable = ({ lists }: AppTableProps) => {
   const columns = ["Name", "Url", "Region", "Created", "App Environment"];
 
   const rows: AppData[] = [];
+
+  // map through lists of apps sent from store
   const getData = () => {
     lists?.map((list: AppData) => {
       return rows?.push(

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import Stepper from "@mui/material/Stepper";
@@ -11,7 +11,7 @@ import { AppForm, ReviewApp } from "../../components";
 
 const steps = ["Fill Form", "Review and Create"];
 
-export default function CreateAppStepper(props: any) {
+export default function CreateAppStepper() {
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -43,7 +43,7 @@ export default function CreateAppStepper(props: any) {
         <h2 className="font-bold text-2xl mt-6">Create Application</h2>
       </div>
       <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map((label, index) => {
+        {steps.map((label) => {
           const stepProps: { completed?: boolean } = {};
           const labelProps: {
             optional?: React.ReactNode;

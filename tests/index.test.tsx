@@ -23,7 +23,7 @@ describe("Apps redux state tests", () => {
   });
 });
 
-// check if new app is created successfully
+// check if a new app is created successfully
 test("Adds a new app", () => {
   let state = store.getState().app;
   const initialBookCount = state.length;

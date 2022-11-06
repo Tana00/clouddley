@@ -9,12 +9,12 @@ interface FormProps {
 }
 
 const AppForm = ({ setAppObj, appObj, setErrors }: FormProps) => {
-  //Input value
   const [name, setName] = useState(appObj?.name || "");
   const [region, setRegion] = useState(appObj?.region || "");
   const [environment, setEnvironment] = useState(appObj?.environment || "");
 
   useEffect(() => {
+    // check if any input is empty and throw error
     if (name === "" || region === "" || environment === "") {
       setErrors(true);
     } else {
