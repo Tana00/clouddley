@@ -1,11 +1,25 @@
 import "@testing-library/jest-dom";
-import { fireEvent, render, screen } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  RenderResult,
+  screen,
+} from "@testing-library/react";
+import { Route, MemoryRouter } from "react-router-dom";
+import { Provider } from "react-redux";
 import { AppData } from "../global.interface";
 import Apps from "../pages/apps/index";
 import Dashboard from "../pages/index";
 import { addApp } from "../store/appSlice";
 
 import { store } from "../store/store";
+
+const renderApps = (): RenderResult =>
+  render(
+    <Provider store={store}>
+      <Apps />
+    </Provider>
+  );
 
 // check if dashboard component is rendered
 describe("Dashboard", () => {
@@ -23,10 +37,16 @@ describe("Apps redux state tests", () => {
   });
 });
 
+// check if apps page is rendered
+test("Renders Apps page", () => {
+  renderApps();
+  expect(screen.getByTestId("apps")).toBeInTheDocument();
+});
+
 // check if a new app is created successfully
 test("Adds a new app", () => {
   let state = store.getState().app;
-  const initialBookCount = state.length;
+  const initialAppCount = state.length;
 
   store.dispatch(
     addApp({
@@ -44,5 +64,5 @@ test("Adds a new app", () => {
   );
   expect(newlyAddedApp?.name).toBe("Tester");
   expect(newlyAddedApp?.url).toBe("Testers manual");
-  expect(state.length).toBeGreaterThan(initialBookCount);
+  expect(state.length).toBeGreaterThan(initialAppCount);
 });
