@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import Router, { useRouter } from "next/router";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -24,6 +24,8 @@ interface AppTableProps {
 }
 
 const AppTable = ({ lists }: AppTableProps) => {
+  const router = useRouter();
+
   const rows: AppData[] = [];
   const getData = () => {
     lists.map((list: AppData) => {
@@ -58,6 +60,17 @@ const AppTable = ({ lists }: AppTableProps) => {
             <TableRow
               key={row.name}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              onClick={() =>
+                Router.push(
+                  {
+                    pathname: "/create-app",
+                    query: { step: 1, app: JSON.stringify(row) },
+                  },
+                  "/create-app"
+                )
+              }
+              className="cursor-pointer"
+              hover
             >
               <TableCell component="th" scope="row" align="center">
                 {row.name}

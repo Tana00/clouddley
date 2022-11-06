@@ -8,7 +8,7 @@ import CustomInput from "./input";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const AppForm = ({ previewApp }: any) => {
+const AppForm = ({ setAppObj }: any) => {
   //Input value
   const [name, setName] = useState("");
   const [region, setRegion] = useState("");
@@ -33,7 +33,7 @@ const AppForm = ({ previewApp }: any) => {
         created: "",
         environment,
       };
-      previewApp(payload);
+      setAppObj(payload);
     },
   });
 

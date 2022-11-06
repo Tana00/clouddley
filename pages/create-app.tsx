@@ -10,10 +10,19 @@ import { AppForm, ReviewApp } from "../components";
 
 const steps = ["Fill Form", "Review and Create"];
 
-export default function CreateAppStepper() {
-  const [activeStep, setActiveStep] = useState(0);
+export default function CreateAppStepper(props: any) {
   const dispatch = useDispatch();
   const router = useRouter();
+
+  const [activeStep, setActiveStep] = useState(
+    parseInt(router?.query?.step, 10) || 0
+  );
+
+  const [appObj, setAppObj] = useState<AppData>(
+    router?.query?.app && JSON.parse(router?.query?.app)
+  );
+
+  console.log("here", appObj);
 
   let payload = {
     name: "happy",
@@ -65,10 +74,10 @@ export default function CreateAppStepper() {
                 Edit
               </button>
             </div>
-            <ReviewApp handleNext={handleNext} />
+            <ReviewApp appObj={appObj} />
           </>
         ) : (
-          <AppForm previewApp={handleNext} />
+          <AppForm setAppObj={setAppObj} />
         )}
         <div className="mt-8 mb-2 flex justify-end items-center">
           <button
