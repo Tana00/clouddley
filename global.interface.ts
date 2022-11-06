@@ -1,4 +1,5 @@
 export interface AppData {
+  id: string;
   name: string;
   url: string;
   region: string;

@@ -14,10 +14,11 @@ const appSlice = createSlice({
   name: "apps",
   initialState: [],
   reducers: {
-    addItem: (state, action: PayloadAction<AppData>) => {
+    addApp: (state, action: PayloadAction<AppData>) => {
       const newApp = {
-        id: new Date().getTime().toString(),
-        created: new Date(),
+        // id: new Date().getTime().toString(),
+        id: action.payload.id,
+        created: action.payload.created,
         url: action.payload.url,
         name: action.payload.name,
         region: action.payload.region,
@@ -34,6 +35,6 @@ const appSlice = createSlice({
   },
 });
 
-export const { addItem, clearList } = appSlice.actions;
+export const { addApp, clearList } = appSlice.actions;
 
 export default appSlice.reducer;

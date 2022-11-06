@@ -1,67 +1,38 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { addItem } from "../store/appSlice";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { AppData } from "../global.interface";
 import CustomInput from "./input";
-import Link from "next/link";
-import { useRouter } from "next/router";
 
-const AppForm = ({ setAppObj }: any) => {
+interface FormProps {
+  setAppObj: Dispatch<SetStateAction<AppData>>;
+  appObj: AppData;
+  setErrors: Dispatch<SetStateAction<boolean>>;
+}
+
+const AppForm = ({ setAppObj, appObj, setErrors }: FormProps) => {
   //Input value
-  const [name, setName] = useState("");
-  const [region, setRegion] = useState("");
-  const [environment, setEnvironment] = useState("");
+  const [name, setName] = useState(appObj?.name || "");
+  const [region, setRegion] = useState(appObj?.region || "");
+  const [environment, setEnvironment] = useState(appObj?.environment || "");
 
-  const newAppSchema = Yup.object().shape({});
-
-  const formik = useFormik<AppData>({
-    initialValues: {
-      name: "",
-      region: "",
-      environment: "",
-      url: "",
-      created: "",
-    },
-    validationSchema: newAppSchema,
-    onSubmit: async (values: AppData) => {
-      let payload = {
+  useEffect(() => {
+    if (name === "" || region === "" || environment === "") {
+      setErrors(true);
+    } else {
+      const url = name.split(" ").join("").toLowerCase();
+      setErrors(false);
+      setAppObj({
+        id: new Date().getTime().toString(),
         name,
-        url: "",
         region,
-        created: "",
         environment,
-      };
-      setAppObj(payload);
-    },
-  });
-
-  const {
-    handleChange,
-    handleSubmit,
-    isSubmitting,
-    errors,
-    handleBlur,
-    touched,
-  } = formik;
-  // const handleSubmit = (e: any) => {
-  //   e.preventDefault();
-  //   if (name.trim().length === 0) {
-  //     return;
-  //   }
-  //   const payload: AppData = {
-  // name,
-  // url: "",
-  // region,
-  // created: "",
-  // environment,
-  //   };
-  //   dispatch(addItem(payload));
-  // };
+        created: new Date().toString(),
+        url: `https://${url}-clouddley.app`,
+      });
+    }
+  }, [name, region, environment]);
 
   return (
-    <form className="container-fluid" onSubmit={handleSubmit}>
+    <form className="container-fluid">
       <CustomInput
         type="text"
         label="App Name"
@@ -69,10 +40,10 @@ const AppForm = ({ setAppObj }: any) => {
         name="appName"
         id="name"
         classes=""
-        onChange={handleChange}
-        inputClass={`${
-          errors.name && touched.name && "border border-[#DC1414] rounded-md"
-        }`}
+        onChange={(e) => {
+          setName(e.target.value);
+        }}
+        value={name}
       />
       <CustomInput
         type="text"
@@ -81,13 +52,12 @@ const AppForm = ({ setAppObj }: any) => {
         name="region"
         id="region"
         classes="my-6"
-        onChange={handleChange}
-        inputClass={`${
-          errors.region &&
-          touched.region &&
-          "border border-[#DC1414] rounded-md"
-        }`}
+        onChange={(e) => {
+          setRegion(e.target.value);
+        }}
+        value={region}
       />
+
       <CustomInput
         type="text"
         label="Environment"
@@ -95,12 +65,10 @@ const AppForm = ({ setAppObj }: any) => {
         name="environment"
         id="environment"
         classes=""
-        onChange={handleChange}
-        inputClass={`${
-          errors.environment &&
-          touched.environment &&
-          "border border-[#DC1414] rounded-md"
-        }`}
+        onChange={(e) => {
+          setEnvironment(e.target.value);
+        }}
+        value={environment}
       />
     </form>
   );

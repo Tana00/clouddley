@@ -56,31 +56,39 @@ const AppTable = ({ lists }: AppTableProps) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              onClick={() =>
-                Router.push(
-                  {
-                    pathname: "/create-app",
-                    query: { step: 1, app: JSON.stringify(row) },
-                  },
-                  "/create-app"
-                )
-              }
-              className="cursor-pointer"
-              hover
-            >
-              <TableCell component="th" scope="row" align="center">
-                {row.name}
+          {rows?.length === 0 ? (
+            <TableRow>
+              <TableCell component="th" scope="row" align="center" colSpan={5}>
+                No data yet
               </TableCell>
-              <TableCell align="center">{row.url}</TableCell>
-              <TableCell align="center">{row.region}</TableCell>
-              <TableCell align="center">{row.created}</TableCell>
-              <TableCell align="center">{row.environment}</TableCell>
             </TableRow>
-          ))}
+          ) : (
+            rows.map((row, i) => (
+              <TableRow
+                key={`${row.name}_${i}`}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                onClick={() =>
+                  Router.push(
+                    {
+                      pathname: "/create-app",
+                      query: { step: 1, app: JSON.stringify(row) },
+                    },
+                    "/create-app"
+                  )
+                }
+                className="cursor-pointer"
+                hover
+              >
+                <TableCell component="th" scope="row" align="center">
+                  {row.name}
+                </TableCell>
+                <TableCell align="center">{row.url}</TableCell>
+                <TableCell align="center">{row.region}</TableCell>
+                <TableCell align="center">{row.created}</TableCell>
+                <TableCell align="center">{row.environment}</TableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
     </TableContainer>

@@ -4,9 +4,10 @@ import { useRouter } from "next/router";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import { addItem } from "../store/appSlice";
-import { AppData } from "../global.interface";
-import { AppForm, ReviewApp } from "../components";
+import cogoToast from "cogo-toast";
+import { addApp } from "../../store/appSlice";
+import { AppData } from "../../global.interface";
+import { AppForm, ReviewApp } from "../../components";
 
 const steps = ["Fill Form", "Review and Create"];
 
@@ -14,30 +15,27 @@ export default function CreateAppStepper(props: any) {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const [errors, setErrors] = useState(true);
   const [activeStep, setActiveStep] = useState(
+    // @ts-ignore
     parseInt(router?.query?.step, 10) || 0
   );
 
   const [appObj, setAppObj] = useState<AppData>(
+    // @ts-ignore
     router?.query?.app && JSON.parse(router?.query?.app)
   );
 
-  console.log("here", appObj);
-
-  let payload = {
-    name: "happy",
-    url: "https://happy.clouddley.app",
-    region: "us-east-3",
-    created: "21-10-2022",
-    environment: "dev",
-  };
-
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
-      dispatch(addItem(payload));
+      dispatch(addApp(appObj));
       router.push("/apps");
     } else {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      if (errors) {
+        cogoToast.error("You have empty fields", { position: "top-right" });
+      } else {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }
     }
   };
 
@@ -77,7 +75,11 @@ export default function CreateAppStepper(props: any) {
             <ReviewApp appObj={appObj} />
           </>
         ) : (
-          <AppForm setAppObj={setAppObj} />
+          <AppForm
+            setAppObj={setAppObj}
+            appObj={appObj}
+            setErrors={setErrors}
+          />
         )}
         <div className="mt-8 mb-2 flex justify-end items-center">
           <button

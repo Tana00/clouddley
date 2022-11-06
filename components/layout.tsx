@@ -1,17 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const menuItems = [
-  {
-    href: "/",
-    title: "Dashboard",
-  },
-  {
-    href: "/apps",
-    title: "Apps",
-  },
-];
-
 export default function Layout({ children }: any) {
   const router = useRouter();
 
@@ -25,21 +14,30 @@ export default function Layout({ children }: any) {
               alt="logo"
             />
             <ul className="mt-20">
-              {menuItems.map(({ href, title }) => (
-                <li className="my-8 mx-3" key={title}>
-                  <Link href={href}>
-                    <p
-                      className={`flex p-2 rounded hover:bg-[#0481D2] hover:text-white cursor-pointer ${
-                        (router.asPath === href ||
-                          router.asPath === "/create-app") &&
-                        "bg-[#0481D2] text-white"
-                      }`}
-                    >
-                      {title}
-                    </p>
-                  </Link>
-                </li>
-              ))}
+              <li className="my-8 mx-3">
+                <Link href="/">
+                  <p
+                    className={`flex p-2 rounded hover:bg-[#0481D2] hover:text-white cursor-pointer ${
+                      router.asPath === "/" && "bg-[#0481D2] text-white"
+                    }`}
+                  >
+                    Dashboard
+                  </p>
+                </Link>
+              </li>
+
+              <li className="my-8 mx-3">
+                <Link href="/apps">
+                  <p
+                    className={`flex p-2 rounded hover:bg-[#0481D2] hover:text-white cursor-pointer ${
+                      router.pathname.startsWith("/apps") &&
+                      "bg-[#0481D2] text-white"
+                    }`}
+                  >
+                    Apps
+                  </p>
+                </Link>
+              </li>
             </ul>
           </nav>
         </aside>
